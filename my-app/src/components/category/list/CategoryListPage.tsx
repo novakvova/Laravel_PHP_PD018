@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { ICategoryItem } from "./types";
 
 const CategoryListPage = () => {
@@ -36,6 +37,7 @@ const CategoryListPage = () => {
     return (
       <>
         <h1 className="text-center">Список категорій</h1>
+        <Link to="/category/create" className="btn btn-success">Додати</Link>
         <table className="table">
           <thead>
             <tr>
