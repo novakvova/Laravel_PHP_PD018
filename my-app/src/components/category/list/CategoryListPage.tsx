@@ -30,6 +30,9 @@ const CategoryListPage = () => {
       <tr key={category.id}>
         <td>{category.id}</td>
         <td>{category.name}</td>
+        <td>
+          <img src={category.image} width={50} />
+        </td>
         <td>{category.description}</td>
       </tr>
     ));
@@ -44,6 +47,7 @@ const CategoryListPage = () => {
             <tr>
               <th scope="col">Id</th>
               <th scope="col">Назва</th>
+              <th scope="col">Фото</th>
               <th scope="col">Опис</th>
             </tr>
           </thead>
