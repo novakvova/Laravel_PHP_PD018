@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Validator;
+use Storage;
 
 class CategoryController extends Controller
 {
@@ -35,6 +36,12 @@ class CategoryController extends Controller
         if($validator->fails()){
             return response()->json($validator->errors(), 400);
         }
+        // store image file firstly
+        $file = $request->file('image');
+        $path = Storage::disk('public')->putFile('uploads', $file);
+        $url = Storage::disk('public')->url($path);
+
+        $input["image"] = $url;
         $category = Category::create($input);
         return response()->json($category);
     }

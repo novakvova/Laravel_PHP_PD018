@@ -11,6 +11,7 @@ const CategoryCreatePage = () => {
   const [dto, setDto] = useState<ICategoryCreate>({
     name: "",
     description: "",
+    image: null
   });
 
   const [errors, setErrors] = useState<ICategoryCreateErrror>({
@@ -26,7 +27,11 @@ const CategoryCreatePage = () => {
     e.preventDefault();
     setErrors({ name: "", description: "" });
     axios
-      .post(`${APP_ENV.BASE_URL}api/category`, dto)
+      .post(`${APP_ENV.BASE_URL}api/category`, dto, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((resp) => {
         navigator("/");
       })
@@ -36,6 +41,11 @@ const CategoryCreatePage = () => {
         console.log("Server error ", errors);
       });
     //console.log("Submit data", dto);
+  };
+  const onImageChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files != null) {
+      setDto({ ...dto, image: e.target.files[0] });
+    }
   };
 
   return (
@@ -75,6 +85,19 @@ const CategoryCreatePage = () => {
           {errors.description && (
             <div className="invalid-feedback">{errors.description}</div>
           )}
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="image" className="form-label">
+            Image
+          </label>
+          <input
+            type="file"
+            className="form-control"
+            id="image"
+            name="image"
+            onChange={onImageChangeHandler}
+          />
         </div>
 
         <button type="submit" className="btn btn-primary">
