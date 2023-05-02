@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Validator;
 
 class CategoryController extends Controller
 {
@@ -23,6 +24,17 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
+        $messages = array(
+            'name.required' => 'Вкажіть назву категорії!',
+            'description.required' => 'Вкажіть опис категорії!'
+        );
+        $validator = Validator::make($input, [
+            'name' => 'required',
+            'description' => 'required'
+        ], $messages);
+        if($validator->fails()){
+            return response()->json($validator->errors(), 400);
+        }
         $category = Category::create($input);
         return response()->json($category);
     }
@@ -48,7 +60,10 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $input = $request->all();
+        $category = Category::update($input);
+
+        return response()->json($category);
     }
 
     /**

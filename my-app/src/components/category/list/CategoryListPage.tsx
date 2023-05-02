@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { APP_ENV } from "../../../env";
 import { ICategoryItem } from "./types";
 
 const CategoryListPage = () => {
@@ -14,7 +15,7 @@ const CategoryListPage = () => {
     ]);
 
     useEffect(() => {
-        axios.get<ICategoryItem[]>("http://127.0.0.1:8000/api/category")
+        axios.get<ICategoryItem[]>(`${APP_ENV.BASE_URL}api/category`)
             .then(resp => {
                 console.log("Сервак дав дані", resp);
                 setList(resp.data);
