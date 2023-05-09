@@ -31,7 +31,7 @@ const CategoryListPage = () => {
         <td>{category.id}</td>
         <td>{category.name}</td>
         <td>
-          <img src={category.image} width={50} />
+          <img src={`${APP_ENV.BASE_URL}storage/${category.image}`} width={50} />
         </td>
         <td>{category.description}</td>
       </tr>
