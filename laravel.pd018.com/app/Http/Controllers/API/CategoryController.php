@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Validator;
 use Storage;
+use DB;
 
 class CategoryController extends Controller
 {
@@ -92,14 +93,78 @@ class CategoryController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Post(
+     *     tags={"Category"},
+     *     path="/api/category/{id}",
+     *     @OA\Parameter(
+     *          name="id",
+     *          description="Category id to edit",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="image",
+     *                     type="string",
+     *                     format="binary"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="name",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="description",
+     *                     type="string"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response="200", description="Success"),
+     *     @OA\Response(response="400", description="Validation has fault"),
+     * )
      */
     public function update(Request $request, string $id)
     {
         $input = $request->all();
-        $category = Category::update($input);
+        $messages = array(
+            'image.image' => 'This file must be image type!',
+            'image.max' => 'This size of this image must be less than 5MB!',
+        );
+        $validator = Validator::make($input, [
+            'image' => 'image|max:5000',
+        ], $messages);
 
-        return response()->json($category);
+        if($validator->fails()){
+            return response()->json($validator->errors(), 400);
+        }
+
+        // take old value from database
+        $category = DB::table('categories')->find($id);
+        // if user request to edit image
+        if($request->file('image') != null) {
+//            $filename = File::basename(parse_url($category->image, PHP_URL_PATH));
+
+            // delete previous from disk
+            if(Storage::disk('public')->exists($category->image)) {
+                Storage::disk('public')->delete($category->image);
+            }
+
+            $file = $request->file('image');
+            $path = Storage::disk('public')->putFile('uploads', $file);
+
+            $input["image"] = $path;
+        }
+
+        $category = Category::find($id);
+        $category->update($input);
+
+        return response()->json(['request'=>'edit by id','result'=>$category]);
     }
 
     /**
