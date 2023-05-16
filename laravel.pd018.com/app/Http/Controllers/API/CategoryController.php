@@ -15,12 +15,24 @@ class CategoryController extends Controller
      * @OA\Get(
      *     tags={"Category"},
      *     path="/api/category",
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *             default="1"
+     *         ),
+     *         description="Page number default 1"
+     *     ),
      *     @OA\Response(response="200", description="List Categories.")
      * )
      */
     public function index()
     {
-        return response()->json(Category::all());
+//        return response()->json(Category::all());
+        $list = Category::paginate(2);
+        return response()->json($list,200);
     }
 
 

@@ -19,6 +19,18 @@
                     "Category"
                 ],
                 "operationId": "e2dd3a12f317e8f78516bb75c97bc7fc",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number default 1",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "1"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "List Categories."
