@@ -186,16 +186,28 @@
                     "description": "User registration data",
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "required": [
                                     "name",
+                                    "lastName",
+                                    "image",
                                     "email",
                                     "password",
                                     "password_confirmation"
                                 ],
                                 "properties": {
                                     "name": {
+                                        "type": "string"
+                                    },
+                                    "lastName": {
+                                        "type": "string"
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "phone": {
                                         "type": "string"
                                     },
                                     "email": {
