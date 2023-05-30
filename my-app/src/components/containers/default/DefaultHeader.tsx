@@ -1,6 +1,13 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { IAuthUser } from "../../auth/types";
 
 const DefaultHeader = () => {
+
+  const {isAuth, user} = useSelector((store: any)=> store.auth as IAuthUser);
+  //console.log("isAuth", isAuth);
+  
+
   return (
     <header>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -27,22 +34,38 @@ const DefaultHeader = () => {
                 </Link>
               </li>
             </ul>
-            <form className="d-flex" role="search">
-              <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button className="btn btn-outline-success" type="submit">
-                Пошук
-              </button>
-            </form>
+            {isAuth ? (
+              <ul className="navbar-nav">
+                <li className="nav-item">
+                  <Link className="nav-link" aria-current="page" to="/profile">
+                    {user?.email}
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" aria-current="page" to="/login">
+                    Вихід
+                  </Link>
+                </li>
+              </ul>
+            ) : (
+              <ul className="navbar-nav">
+                <li className="nav-item">
+                  <Link className="nav-link" aria-current="page" to="/register">
+                    Реєстрація
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" aria-current="page" to="/login">
+                    Вхід
+                  </Link>
+                </li>
+              </ul>
+            )}
           </div>
         </div>
       </nav>
     </header>
   );
-}
+};
 
 export default DefaultHeader;
