@@ -3,10 +3,8 @@ import { Link } from "react-router-dom";
 import { IAuthUser } from "../../auth/types";
 
 const DefaultHeader = () => {
-
-  const {isAuth, user} = useSelector((store: any)=> store.auth as IAuthUser);
+  const { isAuth, user } = useSelector((store: any) => store.auth as IAuthUser);
   //console.log("isAuth", isAuth);
-  
 
   return (
     <header>
