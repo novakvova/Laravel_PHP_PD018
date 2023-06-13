@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\ProductsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,3 +35,5 @@ Route::group([
 Route::get("/category", [CategoryController::class, "index"]);
 Route::post("/category", [CategoryController::class,"store"]);
 Route::post("/category/{id}", [CategoryController::class,"update"]);
+
+Route::get("/products", [ProductsController::class, "index"]);
