@@ -4,6 +4,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { APP_ENV } from "../../../env";
 import { ICategoryCreate, ICategoryCreateErrror } from "./types";
+import http_common from "../../../http_common";
 
 const CategoryCreatePage = () => {
   const navigator = useNavigate();
@@ -26,8 +27,8 @@ const CategoryCreatePage = () => {
   const onSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrors({ name: "", description: "" });
-    axios
-      .post(`${APP_ENV.BASE_URL}api/category`, dto, {
+    http_common
+      .post(`api/category`, dto, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

@@ -1,10 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { APP_ENV } from "../../../env";
-import { AuthUserActionType, IUser } from "../../auth/types";
 import { ICategoryItem, ICategoryList } from "./types";
+import http_common from "../../../http_common";
 
 const CategoryListPage = () => {
 
@@ -17,7 +16,7 @@ const CategoryListPage = () => {
     ]);
 
     useEffect(() => {
-        axios.get<ICategoryList>(`${APP_ENV.BASE_URL}api/category`)
+        http_common.get<ICategoryList>(`api/category`)
             .then(resp => {
                 console.log("Сервак дав дані", resp);
                 setList(resp.data.data);
@@ -39,23 +38,12 @@ const CategoryListPage = () => {
       </tr>
     ));
 
-    const dispatch = useDispatch();
-    //console.error("Сало");
-    const onLogin =() => {
-      const user : IUser={name:"Хтось", email: "test@gmail.com"};
-      dispatch({type: AuthUserActionType.LOGIN_USER, payload: user });
-    }
-
-    const onLogout = () => {
-      dispatch({type: AuthUserActionType.LOGOUT_USER });
-    }
 
     return (
       <>
         <h1 className="text-center">Список категорій</h1>
         <Link to="/category/create" className="btn btn-success">Додати</Link>
-        <button onClick={onLogin} className="btn btn-success">Залогінити телесика</button>
-        <button onClick={onLogout} className="btn btn-success">Вийти</button>
+
         <table className="table">
           <thead>
             <tr>

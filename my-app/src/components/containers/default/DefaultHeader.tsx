@@ -1,10 +1,21 @@
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { IAuthUser } from "../../auth/types";
+import {useDispatch, useSelector} from "react-redux";
+import {Link, useNavigate} from "react-router-dom";
+import {AuthUserActionType, IAuthUser} from "../../auth/types";
+import http_common from "../../../http_common";
 
 const DefaultHeader = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { isAuth, user } = useSelector((store: any) => store.auth as IAuthUser);
   //console.log("isAuth", isAuth);
+
+  const onClickLogout = (e: any) => {
+    e.preventDefault();
+    delete http_common.defaults.headers.common["Authorization"];
+    localStorage.removeItem("token");
+    dispatch({type:AuthUserActionType.LOGOUT_USER});
+    navigate("/");
+  }
 
   return (
     <header>
@@ -40,7 +51,8 @@ const DefaultHeader = () => {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" aria-current="page" to="/login">
+                  <Link className="nav-link" aria-current="page" to="/login"
+                    onClick={onClickLogout}>
                     Вихід
                   </Link>
                 </li>

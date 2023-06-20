@@ -11,6 +11,9 @@ use DB;
 
 class CategoryController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth:api', ['except' => ['index']]);
+    }
     /**
      * @OA\Get(
      *     tags={"Category"},
@@ -31,7 +34,7 @@ class CategoryController extends Controller
     public function index()
     {
 //        return response()->json(Category::all());
-        $list = Category::paginate(2);
+        $list = Category::paginate(100);
         return response()->json($list,200);
     }
 
