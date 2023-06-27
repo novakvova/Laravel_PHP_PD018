@@ -1,9 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { APP_ENV } from "../../../env";
+import { APP_ENV } from "../../../../env";
 import { ICategoryItem, ICategoryList } from "./types";
-import http_common from "../../../http_common";
+import http_common from "../../../../http_common";
 
 const CategoryListPage = () => {
 

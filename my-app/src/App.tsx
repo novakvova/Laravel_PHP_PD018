@@ -1,39 +1,32 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
-import CategoryListPage from "./components/category/list/CategoryListPage";
+import CategoryListPage from "./components/admin/category/list/CategoryListPage";
 import { Route, Routes } from "react-router-dom";
-import CategoryCreatePage from "./components/category/create/CategoryCreatePage";
+import CategoryCreatePage from "./components/admin/category/create/CategoryCreatePage";
 import DefaultLayout from "./components/containers/default/DefaultLayout";
 import LoginPage from "./components/auth/login/LoginPage";
+import AdminLayout from "./components/admin/container/AdminLayout";
+import HomePage from "./components/home/HomePage";
+import AdminHomePage from "./components/admin/home/AdminHomePage";
 
 function App() {
-  console.log("href = ", window.location.href);
-  if (window.location.href == "about") {
     return (
       <>
         <Routes>
           <Route path="/" element={<DefaultLayout />}>
-            <Route index element={<CategoryListPage />} />
-            <Route path="category/create" element={<CategoryCreatePage />} />
+            <Route index element={<HomePage />} />
             <Route path="login" element={<LoginPage />} />
+          </Route>
+          <Route path={"/admin"} element={<AdminLayout/>}>
+            <Route index element={<AdminHomePage/>} />
+            <Route path={"category"}>
+              <Route index element={<CategoryListPage />}/>
+              <Route path="create" element={<CategoryCreatePage />} />
+            </Route>
           </Route>
         </Routes>
       </>
     );
-  } else {
-    return (
-      <>
-        <Routes>
-          <Route path="/" element={<DefaultLayout />}>
-            <Route index element={<CategoryListPage />} />
-            <Route path="category/create" element={<CategoryCreatePage />} />
-            <Route path="login" element={<LoginPage />} />
-          </Route>
-        </Routes>
-      </>
-    );
-  }
 }
 
 export default App;

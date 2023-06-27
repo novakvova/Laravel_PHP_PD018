@@ -2,9 +2,9 @@ import axios from "axios";
 import classNames from "classnames";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { APP_ENV } from "../../../env";
+import { APP_ENV } from "../../../../env";
 import { ICategoryCreate, ICategoryCreateErrror } from "./types";
-import http_common from "../../../http_common";
+import http_common from "../../../../http_common";
 
 const CategoryCreatePage = () => {
   const navigator = useNavigate();
