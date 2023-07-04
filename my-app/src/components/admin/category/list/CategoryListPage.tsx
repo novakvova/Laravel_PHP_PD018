@@ -32,7 +32,7 @@ const CategoryListPage = () => {
         <td>{category.id}</td>
         <td>{category.name}</td>
         <td>
-          <img src={`${APP_ENV.BASE_URL}storage/${category.image}`} width={50} />
+          <img src={`${APP_ENV.BASE_URL}uploads/category/50_${category.image}`} width={50} />
         </td>
         <td>{category.description}</td>
       </tr>
@@ -42,7 +42,7 @@ const CategoryListPage = () => {
     return (
       <>
         <h1 className="text-center">Список категорій</h1>
-        <Link to="/category/create" className="btn btn-success">Додати</Link>
+        <Link to="/admin/category/create" className="btn btn-success">Додати</Link>
 
         <table className="table">
           <thead>

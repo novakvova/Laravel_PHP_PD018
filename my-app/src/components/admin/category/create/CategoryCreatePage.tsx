@@ -34,7 +34,7 @@ const CategoryCreatePage = () => {
         },
       })
       .then((resp) => {
-        navigator("/");
+        navigator("/admin/category");
       })
       .catch((er) => {
         const errors = er.response.data as ICategoryCreateErrror;
