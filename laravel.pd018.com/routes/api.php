@@ -37,3 +37,4 @@ Route::post("/category", [CategoryController::class,"store"]);
 Route::post("/category/{id}", [CategoryController::class,"update"]);
 
 Route::get("/products", [ProductsController::class, "index"]);
+Route::post("/product", [ProductsController::class, "store"]);

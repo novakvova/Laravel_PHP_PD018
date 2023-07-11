@@ -149,13 +149,14 @@
                 "operationId": "27fb7ac89a0871ac2ed42bad955feae6",
                 "requestBody": {
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "required": [
                                     "category_id",
                                     "name",
                                     "description",
-                                    "price"
+                                    "price",
+                                    "images[]"
                                 ],
                                 "properties": {
                                     "name": {
@@ -169,6 +170,13 @@
                                     },
                                     "description": {
                                         "type": "string"
+                                    },
+                                    "images[]": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "binary"
+                                        }
                                     }
                                 },
                                 "type": "object"

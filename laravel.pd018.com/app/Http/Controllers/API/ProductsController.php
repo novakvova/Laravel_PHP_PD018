@@ -4,7 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
+use Validator;
 
 class ProductsController extends Controller
 {
@@ -17,7 +19,9 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $list = Product::all();
+        $list = Product::with("product_images")
+            ->with("category")
+            ->get();
         return response()->json($list,200);
     }
 
@@ -28,9 +32,9 @@ class ProductsController extends Controller
      *     path="/api/product",
      *     @OA\RequestBody(
      *         @OA\MediaType(
-     *             mediaType="application/json",
+     *             mediaType="multipart/form-data",
      *             @OA\Schema(
-     *                 required={"category_id", "name", "description", "price"},
+     *                 required={"category_id", "name", "description", "price", "images[]"},
      *                 @OA\Property(
      *                     property="name",
      *                     type="string"
@@ -46,6 +50,11 @@ class ProductsController extends Controller
      *                 @OA\Property(
      *                     property="description",
      *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="images[]",
+     *                     type="array",
+     *                     @OA\Items(type="string", format="binary")
      *                 )
      *             )
      *         )
@@ -74,6 +83,21 @@ class ProductsController extends Controller
             return response()->json($validator->errors(), 400);
         }
         $product = Product::create($input);
+        $images = $request->file("images");
+        if($request->hasFile("images")) {
+            $i=1;
+            foreach($images as $image) {
+                $filename = uniqid().'.'.$image->getClientOriginalExtension();
+                $priority = $i++;
+                $image->move(public_path('uploads/product'), $filename);
+                ProductImage::create([
+                   "product_id"=> $product->id,
+                   'name'=> $filename,
+                   "priority"=>$priority
+                ]);
+            }
+        }
+        $product->load("product_images");
         return response()->json($product);
     }
 
